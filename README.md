@@ -1,16 +1,19 @@
 # Fabric Example Mod
 
-## Setup
+## Description
 
-1. Edit build.gradle and mod.json to suit your needs.
-    * The "mixins" object can be removed from mod.json if you do not need to use mixins.
-    * Please replace all occurences of "modid" with your own mod ID - sometimes, a different string may also suffice.
-2. Run the following command:
+This mod adds new mob-inspired totems of undying to Minecraft. The new mob-based totems added to the game are:
 
-```
-./gradlew idea
-```
+1. Exploding Totem of Undying (Creeper): Generates an explosion around the player upon activation.
 
-## License
+2. Skeletal Totem of Undying (Skeleton): Gives the player a potion effect called Sniper that doubles their projectile damage upon activation.
 
-This template is available under the CC0 license. Feel free to learn from it and incorporate it in your own projects.
+3. Teleporting Totem of Undying (Enderman): Teleports the player back to their spawn point upon activation.
+
+4. Ghastly Totem of Undying (Ghast): Gives the player the potion effects of Levitation, Slow Falling, and Fire Resistance upon activation. 
+
+5. Stinging Totem of Undying (Bee) : Summons 5 bees upon activation that defend the player from enemies. 
+
+
+
+
