@@ -1,0 +1,6 @@
+{
+  "parent": "effect/generated",
+  "textures": {
+    "layer0": "moretotems:effect/sniper"
+  }
+}

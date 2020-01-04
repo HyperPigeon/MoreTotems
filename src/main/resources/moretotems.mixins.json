@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "package": "net.hyper_pigeon.moretotems.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "LivingEntityMixin",
+    "ProjectileEntityMixin"
+  ],
+  "client": [
+    "MoreTotemsMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
