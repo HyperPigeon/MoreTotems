@@ -9,6 +9,12 @@
 
   "item.moretotems.skeletal_totem_of_undying": "Skeletal Totem of Undying",
 
-  "effect.moretotems.sniper": "Sniper"
+  "item.moretotems.tentacled_totem_of_undying": "Tentacled Totem of Undying",
+
+  "effect.moretotems.sniper": "Sniper",
+
+  "effect.moretotems.cephalopod": "Cephalopod",
+
+  "entity.moretotems.summoned_bee": "Totem Bee"
 
 }

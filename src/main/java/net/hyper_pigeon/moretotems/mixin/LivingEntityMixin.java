@@ -7,6 +7,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.TntEntity;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
@@ -37,6 +38,12 @@ public abstract class LivingEntityMixin  extends Entity{
     @Shadow
     public  native ItemStack getStackInHand(Hand hand_1);
 
+    @Shadow
+    public native LivingEntity getAttacker();
+
+    @Shadow
+    public native boolean hasStatusEffect(StatusEffect effect);
+
     @Shadow public native void setHealth(float health);
 
     @Shadow public native boolean clearStatusEffects();
@@ -63,8 +70,10 @@ public abstract class LivingEntityMixin  extends Entity{
         ItemStack offhand_stack = ((LivingEntityMixin) entity).getStackInHand(Hand.OFF_HAND);
         ItemStack offhand_stack_copy;
 
+        ItemStack mainhand_stack = ((LivingEntityMixin) entity).getStackInHand(Hand.MAIN_HAND);
+
         //Executes if the item in offhand_stack is equal to the explosive totem of Undying
-        if (offhand_stack.getItem() == MoreTotemsMod.EXPLOSIVE_TOTEM_OF_UNDYING) {
+        if ((offhand_stack.getItem() == MoreTotemsMod.EXPLOSIVE_TOTEM_OF_UNDYING) || (mainhand_stack.getItem() == MoreTotemsMod.EXPLOSIVE_TOTEM_OF_UNDYING) ) {
 
             /*If the damagesource is something that could kill a player in creative mode, the totem does not work*/
             if (damageSource_1.isOutOfWorld()) {
@@ -75,8 +84,15 @@ public abstract class LivingEntityMixin  extends Entity{
                 /*sets copy to offhand_stack*/
                 offhand_stack_copy = offhand_stack;
                 /*deletes explosive totem from offhand*/
-                offhand_stack.decrement(1);
 
+              if((offhand_stack.getItem() == MoreTotemsMod.EXPLOSIVE_TOTEM_OF_UNDYING)) {
+                  offhand_stack.decrement(1);
+              }
+              else if((mainhand_stack.getItem() == MoreTotemsMod.EXPLOSIVE_TOTEM_OF_UNDYING)){
+
+                  mainhand_stack.decrement(1);
+
+              }
 
 
                 /*if the offhand_stack_copy is not empty, then execute*/
@@ -127,8 +143,10 @@ public abstract class LivingEntityMixin  extends Entity{
         ItemStack offhand_stack = ((LivingEntityMixin) entity).getStackInHand(Hand.OFF_HAND);
         ItemStack offhand_stack_copy;
 
+        ItemStack mainhand_stack = ((LivingEntityMixin) entity).getStackInHand(Hand.MAIN_HAND);
+
         //Executes if the item in offhand_stack is equal to the explosive totem of Undying
-        if (offhand_stack.getItem() == MoreTotemsMod.STINGING_TOTEM_OF_UNDYING) {
+        if ((offhand_stack.getItem() == MoreTotemsMod.STINGING_TOTEM_OF_UNDYING) || (mainhand_stack.getItem() == MoreTotemsMod.STINGING_TOTEM_OF_UNDYING)) {
 
             /*If the damagesource is something that could kill a player in creative mode, the totem does not work*/
             if (damageSource_1.isOutOfWorld()) {
@@ -139,7 +157,14 @@ public abstract class LivingEntityMixin  extends Entity{
                 /*sets copy to offhand_stack*/
                 offhand_stack_copy = offhand_stack;
                 /*deletes explosive totem from offhand*/
-                offhand_stack.decrement(1);
+                if((offhand_stack.getItem() == MoreTotemsMod.STINGING_TOTEM_OF_UNDYING)) {
+                    offhand_stack.decrement(1);
+                }
+                else if((mainhand_stack.getItem() == MoreTotemsMod.STINGING_TOTEM_OF_UNDYING)){
+
+                    mainhand_stack.decrement(1);
+
+                }
 
 
 
@@ -214,18 +239,27 @@ public abstract class LivingEntityMixin  extends Entity{
         ItemStack offhand_stack = ((LivingEntityMixin) entity).getStackInHand(Hand.OFF_HAND);
         ItemStack offhand_stack_copy;
 
+        ItemStack mainhand_stack = ((LivingEntityMixin) entity).getStackInHand(Hand.MAIN_HAND);
+
         //Executes if the item in offhand_stack is equal to the explosive totem of Undying
-        if (offhand_stack.getItem() == MoreTotemsMod.TELEPORTING_TOTEM_OF_UNDYING) {
+        if ((offhand_stack.getItem() == MoreTotemsMod.TELEPORTING_TOTEM_OF_UNDYING) || (mainhand_stack.getItem() == MoreTotemsMod.TELEPORTING_TOTEM_OF_UNDYING)) {
 
                 /*sets copy to offhand_stack*/
                 offhand_stack_copy = offhand_stack;
 
+            if((offhand_stack.getItem() == MoreTotemsMod.TELEPORTING_TOTEM_OF_UNDYING)) {
                 offhand_stack.decrement(1);
+            }
+            else if((mainhand_stack.getItem() == MoreTotemsMod.TELEPORTING_TOTEM_OF_UNDYING)){
+
+                mainhand_stack.decrement(1);
+
+            }
 
                 /*totem saves player from an untimely death*/
                 this.setHealth(1.0F);
                 this.clearStatusEffects();
-                this.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, 9500, 10));
+                this.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, 17500, 10));
 
 
 
@@ -302,8 +336,10 @@ public abstract class LivingEntityMixin  extends Entity{
         ItemStack offhand_stack = ((LivingEntityMixin) entity).getStackInHand(Hand.OFF_HAND);
         ItemStack offhand_stack_copy;
 
+        ItemStack mainhand_stack = ((LivingEntityMixin) entity).getStackInHand(Hand.MAIN_HAND);
+
         //Executes if the item in offhand_stack is equal to the ghastly totem of Undying
-        if (offhand_stack.getItem() == MoreTotemsMod.GHASTLY_TOTEM_OF_UNDYING) {
+        if ((offhand_stack.getItem() == MoreTotemsMod.GHASTLY_TOTEM_OF_UNDYING) || (mainhand_stack.getItem() == MoreTotemsMod.GHASTLY_TOTEM_OF_UNDYING)) {
 
             /*If the damagesource is something that could kill a player in creative mode, the totem does not work*/
             if (damageSource_1.isOutOfWorld()) {
@@ -313,8 +349,15 @@ public abstract class LivingEntityMixin  extends Entity{
             else {
                 /*sets copy to offhand_stack*/
                 offhand_stack_copy = offhand_stack;
-                /*deletes explosive totem from offhand*/
-                offhand_stack.decrement(1);
+
+                if((offhand_stack.getItem() == MoreTotemsMod.GHASTLY_TOTEM_OF_UNDYING)) {
+                    offhand_stack.decrement(1);
+                }
+                else if((mainhand_stack.getItem() == MoreTotemsMod.GHASTLY_TOTEM_OF_UNDYING)){
+
+                    mainhand_stack.decrement(1);
+
+                }
 
 
                 /*if the offhand_stack_copy is not empty, then execute*/
@@ -323,10 +366,10 @@ public abstract class LivingEntityMixin  extends Entity{
                 /*totem saves player from an untimely death*/
                 this.setHealth(1.0F);
                 this.clearStatusEffects();
-                this.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 525, 1));
-                this.addStatusEffect(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, 500, 2));
-                this.addStatusEffect(new StatusEffectInstance(StatusEffects.LEVITATION, 900, 1));
-                this.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOW_FALLING, 1250, 1));
+                this.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 1325, 1));
+                this.addStatusEffect(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, 1525, 2));
+                this.addStatusEffect(new StatusEffectInstance(StatusEffects.LEVITATION, 1225, 1));
+                this.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOW_FALLING, 1750, 1));
 
 
                 this.world.sendEntityStatus(this, (byte)35);
@@ -357,8 +400,10 @@ public abstract class LivingEntityMixin  extends Entity{
         ItemStack offhand_stack = ((LivingEntityMixin) entity).getStackInHand(Hand.OFF_HAND);
         ItemStack offhand_stack_copy;
 
+        ItemStack mainhand_stack = ((LivingEntityMixin) entity).getStackInHand(Hand.MAIN_HAND);
+
         //Executes if the item in offhand_stack is equal to the ghastly totem of Undying
-        if (offhand_stack.getItem() == MoreTotemsMod.SKELETAL_TOTEM_OF_UNDYING) {
+        if ((offhand_stack.getItem() == MoreTotemsMod.SKELETAL_TOTEM_OF_UNDYING) || (mainhand_stack.getItem() == MoreTotemsMod.SKELETAL_TOTEM_OF_UNDYING)) {
 
             /*If the damagesource is something that could kill a player in creative mode, the totem does not work*/
             if (damageSource_1.isOutOfWorld()) {
@@ -368,8 +413,15 @@ public abstract class LivingEntityMixin  extends Entity{
             else {
                 /*sets copy to offhand_stack*/
                 offhand_stack_copy = offhand_stack;
-                /*deletes explosive totem from offhand*/
-                offhand_stack.decrement(1);
+                /*deletes  totem from offhand*/
+                if((offhand_stack.getItem() == MoreTotemsMod.SKELETAL_TOTEM_OF_UNDYING)) {
+                    offhand_stack.decrement(1);
+                }
+                else if((mainhand_stack.getItem() == MoreTotemsMod.SKELETAL_TOTEM_OF_UNDYING)){
+
+                    mainhand_stack.decrement(1);
+
+                }
 
 
                 /*if the offhand_stack_copy is not empty, then execute*/
@@ -378,10 +430,10 @@ public abstract class LivingEntityMixin  extends Entity{
                 /*totem saves player from an untimely death*/
                 this.setHealth(1.0F);
                 this.clearStatusEffects();
-                this.addStatusEffect(new StatusEffectInstance(MoreTotemsMod.SNIPER, 2500, 0));
-                this.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 400, 1));
-                this.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, 450, 1));
-                this.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 300, 1));
+                this.addStatusEffect(new StatusEffectInstance(MoreTotemsMod.SNIPER, 2000, 0));
+                this.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 600, 0));
+                this.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, 350, 1));
+                this.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 250, 0));
 
 
                 this.world.sendEntityStatus(this, (byte)35);
@@ -401,6 +453,120 @@ public abstract class LivingEntityMixin  extends Entity{
         }
 
     }
+
+
+    @Inject(at = @At("HEAD"), method = "tryUseTotem", cancellable = true)
+    public void useTentacledTotem(DamageSource damageSource_1, CallbackInfoReturnable<Boolean> callback) {
+        /*inits PlayerEntity entity, which is a copy of this casted to Living Entity and then PlayerEntity*/
+        Entity entity =  this;
+
+        /*ItemStack object that is set to the offhand item that entity is carrying*/
+        ItemStack offhand_stack = ((LivingEntityMixin) entity).getStackInHand(Hand.OFF_HAND);
+        ItemStack offhand_stack_copy;
+
+        ItemStack mainhand_stack = ((LivingEntityMixin) entity).getStackInHand(Hand.MAIN_HAND);
+
+        //Executes if the item in offhand_stack is equal to the ghastly totem of Undying
+        if ((offhand_stack.getItem() == MoreTotemsMod.TENTACLED_TOTEM_OF_UNDYING) || (mainhand_stack.getItem() == MoreTotemsMod.TENTACLED_TOTEM_OF_UNDYING)) {
+
+            /*If the damagesource is something that could kill a player in creative mode, the totem does not work*/
+            if (damageSource_1.isOutOfWorld()) {
+
+                callback.setReturnValue(false);
+            }
+            else {
+                /*sets copy to offhand_stack*/
+                offhand_stack_copy = offhand_stack;
+                /*deletes  totem from offhand*/
+                if((offhand_stack.getItem() == MoreTotemsMod.TENTACLED_TOTEM_OF_UNDYING)) {
+                    offhand_stack.decrement(1);
+                }
+                else if((mainhand_stack.getItem() == MoreTotemsMod.TENTACLED_TOTEM_OF_UNDYING)){
+
+                    mainhand_stack.decrement(1);
+
+                }
+
+
+                /*if the offhand_stack_copy is not empty, then execute*/
+
+
+                /*totem saves player from an untimely death*/
+                this.setHealth(1.0F);
+                this.clearStatusEffects();
+                this.addStatusEffect(new StatusEffectInstance(MoreTotemsMod.CEPHALOPOD, 2000, 0));
+                this.addStatusEffect(new StatusEffectInstance(StatusEffects.CONDUIT_POWER, 2000, 0));
+                this.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 950, 1));
+                this.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, 200, 2));
+
+
+
+                this.world.sendEntityStatus(this, (byte)35);
+
+                callback.setReturnValue(true);
+
+
+
+
+            }
+
+        }
+        else {
+
+
+
+        }
+
+    }
+
+
+
+    @Inject(at = @At("RETURN"), method = "damage", cancellable = true)
+    public void applyCephalopodEffect(DamageSource source, float amount, CallbackInfoReturnable<Boolean> callback) {
+
+        Entity entity3 = source.getAttacker();
+
+        Entity entity =  this;
+
+
+        if(entity3 instanceof LivingEntity) {
+
+            if(entity3 != null) {
+
+                if(((LivingEntity) entity3).hasStatusEffect(MoreTotemsMod.CEPHALOPOD))
+                {
+
+                    this.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 450, 1));
+                    callback.setReturnValue(true);
+
+                }
+                else {
+
+                    if(((LivingEntityMixin) entity).hasStatusEffect(MoreTotemsMod.CEPHALOPOD)) {
+
+                        ((LivingEntity) entity3).addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 450, 1));
+                        ((LivingEntity) entity3).addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 150, 0));
+
+                    }
+
+
+                }
+
+            }
+            else {
+
+                callback.setReturnValue(false);
+
+            }
+
+        }
+
+
+
+
+    }
+
+
 
 
 

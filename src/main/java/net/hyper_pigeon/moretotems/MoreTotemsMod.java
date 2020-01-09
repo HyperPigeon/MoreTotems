@@ -29,6 +29,9 @@ public class MoreTotemsMod implements ModInitializer {
 	public static final SkeletalTotemOfUndying SKELETAL_TOTEM_OF_UNDYING =
 			new SkeletalTotemOfUndying (new Item.Settings().group(ItemGroup.COMBAT).maxCount(1));
 
+	public static final TentacledTotemOfUndying TENTACLED_TOTEM_OF_UNDYING =
+			new TentacledTotemOfUndying(new Item.Settings().group(ItemGroup.COMBAT).maxCount(1));
+
 	public static final EntityType<SummonedBeeEntity> SUMMONED_BEE_ENTITY =
 			Registry.register(
 					Registry.ENTITY_TYPE,
@@ -38,6 +41,8 @@ public class MoreTotemsMod implements ModInitializer {
 			);
 
 	public static final Sniper SNIPER = Registry.register(Registry.STATUS_EFFECT, new Identifier("moretotems", "sniper"), new Sniper(StatusEffectType.BENEFICIAL, 13420603));
+
+	public static final Cephalopod CEPHALOPOD = Registry.register(Registry.STATUS_EFFECT, new Identifier("moretotems", "cephalopod"), new Cephalopod(StatusEffectType.BENEFICIAL, 23245245));
 
 	@Override
 	public void onInitialize() {
@@ -50,7 +55,8 @@ public class MoreTotemsMod implements ModInitializer {
 		Registry.register(Registry.ITEM, new Identifier("moretotems", "teleporting_totem_of_undying"), TELEPORTING_TOTEM_OF_UNDYING);
 		Registry.register(Registry.ITEM, new Identifier("moretotems", "ghastly_totem_of_undying"), GHASTLY_TOTEM_OF_UNDYING);
 		Registry.register(Registry.ITEM, new Identifier("moretotems", "skeletal_totem_of_undying"), SKELETAL_TOTEM_OF_UNDYING);
+		Registry.register(Registry.ITEM, new Identifier("moretotems", "tentacled_totem_of_undying"), TENTACLED_TOTEM_OF_UNDYING);
 
-		System.out.println("Hello Fabric world!");
+
 	}
 }
