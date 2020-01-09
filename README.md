@@ -14,6 +14,8 @@ This mod adds new mob-inspired totems of undying to Minecraft. The new mob-based
 
 5. Stinging Totem of Undying (Bee) : Summons 5 bees upon activation that defend the player from enemies. 
 
+6. Tentacled Totem of Undying (Squid): Gives the player a potion effect called Cephalopod upon activation. Cephalopod that afflicts entities attacking or being attacked by the player with blindness and/or slowness. 
+
 
 
 
