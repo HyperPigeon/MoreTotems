@@ -14,5 +14,10 @@ public class MoreTotemsModClient implements ClientModInitializer{
                 (dispatcher, context) ->
                 new SummonedBeeRenderer(dispatcher));
 
+        EntityRendererRegistry.INSTANCE.register(MoreTotemsMod.SUMMONED_ZOMBIE_ENTITY,
+                (dispatcher, context) ->
+                        new SummonedZombieRenderer(dispatcher));
+
+
     }
 }

@@ -15,13 +15,16 @@ public class SummonedBeeEntity extends BeeEntity {
     public SummonedBeeEntity(EntityType<? extends BeeEntity> entityType_1, World world_1) {
 
         super(entityType_1, world_1);
-        setSummoner(world_1.getClosestPlayer(this.getX(), this.getZ(), 30));
+        setSummoner(world_1.getClosestPlayer(this.getX(), this.getZ(), 5));
 
 
     }
 
+
+
     protected void initAttributes() {
         super.initAttributes();
+        this.getAttributeInstance(EntityAttributes.FLYING_SPEED).setBaseValue(8.5D);
         this.getAttributeInstance(EntityAttributes.ATTACK_DAMAGE).setBaseValue(4.5D);
 
     }
@@ -48,9 +51,6 @@ public class SummonedBeeEntity extends BeeEntity {
                 this.setBeeAttacker(((PlayerEntity) summoner).getAttacking());
 
             }
-
-
-
 
 
         }

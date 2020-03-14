@@ -1,11 +1,10 @@
 package net.hyper_pigeon.moretotems.mixin;
 
 import net.hyper_pigeon.moretotems.MoreTotemsMod;
+import net.hyper_pigeon.moretotems.Necrosis;
 import net.hyper_pigeon.moretotems.SummonedBeeEntity;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.TntEntity;
+import net.hyper_pigeon.moretotems.SummonedZombieEntity;
+import net.minecraft.entity.*;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -25,6 +24,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 /*The goal of this Mixin class is to give the totems the same ability to save the player from death, along with
@@ -50,6 +50,14 @@ public abstract class LivingEntityMixin  extends Entity{
 
     @Shadow public native boolean addStatusEffect(StatusEffectInstance statusEffectInstance_1);
 
+    @Shadow public native void heal(float amount);
+
+    @Shadow public native EntityGroup getGroup();
+
+    @Shadow public native boolean isUndead();
+
+    public int souls = 0;
+
     public EntityType<SummonedBeeEntity> s_bee = MoreTotemsMod.SUMMONED_BEE_ENTITY;
 
     public MinecraftServer the_server = getServer();
@@ -57,6 +65,7 @@ public abstract class LivingEntityMixin  extends Entity{
     protected LivingEntityMixin(EntityType<?> entityType_1, World world_1) {
         super(entityType_1, world_1);
     }
+
 
 
     @Inject(at = @At("HEAD"), method = "tryUseTotem", cancellable = true)
@@ -110,7 +119,7 @@ public abstract class LivingEntityMixin  extends Entity{
 
                     TntEntity tntEntity = EntityType.TNT.create(world);
                     tntEntity.setFuse(5);
-                    tntEntity.setPosition(this.getX(), this.getY(), this.getZ());
+                    tntEntity.setPos(this.getX(), this.getY(), this.getZ());
                     world.spawnEntity(tntEntity);
 
                     callback.setReturnValue(true);
@@ -188,27 +197,27 @@ public abstract class LivingEntityMixin  extends Entity{
 
                 SummonedBeeEntity summonedBeeEntity_1 = s_bee.create(world);
                 summonedBeeEntity_1.setSummoner(this);
-                summonedBeeEntity_1.setPosition(this.getX(), this.getY(), this.getZ());
+                summonedBeeEntity_1.setPos(this.getX(), this.getY(), this.getZ());
                 world.spawnEntity(summonedBeeEntity_1);
 
                 SummonedBeeEntity summonedBeeEntity_2 = s_bee.create(world);
                 summonedBeeEntity_2.setSummoner(this);
-                summonedBeeEntity_2.setPosition(this.getX(), this.getY(), this.getZ());
+                summonedBeeEntity_2.setPos(this.getX(), this.getY(), this.getZ());
                 world.spawnEntity(summonedBeeEntity_2);
 
                 SummonedBeeEntity summonedBeeEntity_3 = s_bee.create(world);
                 summonedBeeEntity_3.setSummoner(this);
-                summonedBeeEntity_3.setPosition(this.getX(), this.getY(), this.getZ());
+                summonedBeeEntity_3.setPos(this.getX(), this.getY(), this.getZ());
                 world.spawnEntity(summonedBeeEntity_3);
 
                 SummonedBeeEntity summonedBeeEntity_4 = s_bee.create(world);
                 summonedBeeEntity_4.setSummoner(this);
-                summonedBeeEntity_4.setPosition(this.getX(), this.getY(), this.getZ());
+                summonedBeeEntity_4.setPos(this.getX(), this.getY(), this.getZ());
                 world.spawnEntity(summonedBeeEntity_4);
 
                 SummonedBeeEntity summonedBeeEntity_5 = s_bee.create(world);
                 summonedBeeEntity_5.setSummoner(this);
-                summonedBeeEntity_5.setPosition(this.getX(), this.getY(), this.getZ());
+                summonedBeeEntity_5.setPos(this.getX(), this.getY(), this.getZ());
                 world.spawnEntity(summonedBeeEntity_5);
 
 
@@ -436,7 +445,10 @@ public abstract class LivingEntityMixin  extends Entity{
                 this.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 250, 0));
 
 
+
                 this.world.sendEntityStatus(this, (byte)35);
+
+
 
                 callback.setReturnValue(true);
 
@@ -562,9 +574,150 @@ public abstract class LivingEntityMixin  extends Entity{
         }
 
 
+    }
+
+
+    @Inject(at = @At("HEAD"), method = "tryUseTotem", cancellable = true)
+    public void useRottingTotem(DamageSource damageSource_1, CallbackInfoReturnable<Boolean> callback) {
+        /*inits PlayerEntity entity, which is a copy of this casted to Living Entity and then PlayerEntity*/
+        Entity entity =  this;
+
+        /*ItemStack object that is set to the offhand item that entity is carrying*/
+        ItemStack offhand_stack = ((LivingEntityMixin) entity).getStackInHand(Hand.OFF_HAND);
+        ItemStack offhand_stack_copy;
+
+        ItemStack mainhand_stack = ((LivingEntityMixin) entity).getStackInHand(Hand.MAIN_HAND);
+
+        //Executes if the item in offhand_stack is equal to the ghastly totem of Undying
+        if ((offhand_stack.getItem() == MoreTotemsMod.ROTTING_TOTEM_OF_UNDYING) || (mainhand_stack.getItem() == MoreTotemsMod.ROTTING_TOTEM_OF_UNDYING)) {
+
+            /*If the damagesource is something that could kill a player in creative mode, the totem does not work*/
+            if (damageSource_1.isOutOfWorld()) {
+
+                callback.setReturnValue(false);
+            }
+            else {
+                /*sets copy to offhand_stack*/
+                offhand_stack_copy = offhand_stack;
+                /*deletes  totem from offhand*/
+                if((offhand_stack.getItem() == MoreTotemsMod.ROTTING_TOTEM_OF_UNDYING)) {
+                    offhand_stack.decrement(1);
+                }
+                else if((mainhand_stack.getItem() == MoreTotemsMod.ROTTING_TOTEM_OF_UNDYING)){
+
+                    mainhand_stack.decrement(1);
+
+                }
+
+
+                /*totem saves player from an untimely death*/
+                this.setHealth(1.0F);
+                this.clearStatusEffects();
+                this.addStatusEffect(new StatusEffectInstance(MoreTotemsMod.NECROSIS,2000,0));
+                this.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, 300,2));
+                this.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, 400, 0));
+
+                SummonedZombieEntity zombie_spawn = MoreTotemsMod.SUMMONED_ZOMBIE_ENTITY.create(world);
+                SummonedZombieEntity zombie_spawn_two = MoreTotemsMod.SUMMONED_ZOMBIE_ENTITY.create(world);
+                SummonedZombieEntity zombie_spawn_three = MoreTotemsMod.SUMMONED_ZOMBIE_ENTITY.create(world);
+
+                zombie_spawn.setSummoner(this);
+                zombie_spawn_two.setSummoner(this);
+                zombie_spawn_three.setSummoner(this);
+
+                zombie_spawn.setPos(this.getX(), this.getY(), this.getZ()+3);
+
+                zombie_spawn_two.setPos(this.getX(), this.getY(), this.getZ()-3);
+
+                zombie_spawn_three.setPos(this.getX()-3, this.getY(), this.getZ());
+
+                world.spawnEntity(zombie_spawn);
+
+                world.spawnEntity(zombie_spawn_two);
+
+                world.spawnEntity(zombie_spawn_three);
+
+                this.world.sendEntityStatus(this, (byte)35);
+
+                callback.setReturnValue(true);
+
+
+            }
+
+        }
+        else {
+
+
+        }
+
+    }
+
+
+    /*
+    @Inject(at = @At("RETURN"), method = "damage", cancellable = true)
+    public void SoulHeal (DamageSource source, float amount, CallbackInfoReturnable<Boolean> callback) {
+
+        Entity entity3 = source.getAttacker();
+
+        if(entity3 instanceof LivingEntity) {
+
+            if(entity3 != null) {
+
+                if(((LivingEntity) entity3).hasStatusEffect(MoreTotemsMod.NECROSIS))
+                {
+                    int soul_amount = ((LivingEntityMixin) entity3).souls;
+                    ((LivingEntity) entity3).addStatusEffect(new StatusEffectInstance(StatusEffects.INSTANT_HEALTH, 1, 0));
+                    callback.setReturnValue(true);
+
+
+                }
+
+
+            }
+            else {
+
+                callback.setReturnValue(false);
+
+            }
+
+
+        }
+
+
+
+
+
+
+
+    } */
+
+
+
+
+
+    @Inject(at = @At("HEAD"), method = "isUndead", cancellable = true)
+    public void NecroCheck(CallbackInfoReturnable<Boolean> callback) {
+
+        if (this.hasStatusEffect(MoreTotemsMod.NECROSIS)){
+
+            callback.setReturnValue(true);
+
+        }
+        else if(this.getGroup() == EntityGroup.UNDEAD) {
+
+            callback.setReturnValue(true);
+
+        }
+
+
 
 
     }
+
+
+
+
+
 
 
 

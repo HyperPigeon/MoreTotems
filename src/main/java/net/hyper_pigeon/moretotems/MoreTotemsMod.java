@@ -32,6 +32,10 @@ public class MoreTotemsMod implements ModInitializer {
 	public static final TentacledTotemOfUndying TENTACLED_TOTEM_OF_UNDYING =
 			new TentacledTotemOfUndying(new Item.Settings().group(ItemGroup.COMBAT).maxCount(1));
 
+
+	public static final RottingTotemOfUndying ROTTING_TOTEM_OF_UNDYING =
+			new RottingTotemOfUndying(new Item.Settings().group(ItemGroup.COMBAT).maxCount(1));
+
 	public static final EntityType<SummonedBeeEntity> SUMMONED_BEE_ENTITY =
 			Registry.register(
 					Registry.ENTITY_TYPE,
@@ -40,9 +44,20 @@ public class MoreTotemsMod implements ModInitializer {
 
 			);
 
+
+	public static final EntityType<SummonedZombieEntity> SUMMONED_ZOMBIE_ENTITY = Registry.register(
+			Registry.ENTITY_TYPE,
+			"summoned_zombie",
+			FabricEntityTypeBuilder.create(EntityCategory.MONSTER, SummonedZombieEntity::new).size(EntityDimensions.fixed(1, 2)).build());
+
+
+
+
 	public static final Sniper SNIPER = Registry.register(Registry.STATUS_EFFECT, new Identifier("moretotems", "sniper"), new Sniper(StatusEffectType.BENEFICIAL, 13420603));
 
 	public static final Cephalopod CEPHALOPOD = Registry.register(Registry.STATUS_EFFECT, new Identifier("moretotems", "cephalopod"), new Cephalopod(StatusEffectType.BENEFICIAL, 23245245));
+
+	public static final Necrosis NECROSIS = Registry.register(Registry.STATUS_EFFECT, new Identifier("moretotems", "necrosis"), new Necrosis(StatusEffectType.BENEFICIAL, 23245245));
 
 	@Override
 	public void onInitialize() {
@@ -56,7 +71,7 @@ public class MoreTotemsMod implements ModInitializer {
 		Registry.register(Registry.ITEM, new Identifier("moretotems", "ghastly_totem_of_undying"), GHASTLY_TOTEM_OF_UNDYING);
 		Registry.register(Registry.ITEM, new Identifier("moretotems", "skeletal_totem_of_undying"), SKELETAL_TOTEM_OF_UNDYING);
 		Registry.register(Registry.ITEM, new Identifier("moretotems", "tentacled_totem_of_undying"), TENTACLED_TOTEM_OF_UNDYING);
-
+		Registry.register(Registry.ITEM, new Identifier("moretotems", "rotting_totem_of_undying"), ROTTING_TOTEM_OF_UNDYING);
 
 	}
 }
