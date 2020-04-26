@@ -14,6 +14,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.ServerTask;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.DefaultedList;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
@@ -111,7 +112,7 @@ public abstract class LivingEntityMixin  extends Entity{
                     this.setHealth(1.0F);
                     this.clearStatusEffects();
                     this.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 125, 2));
-                    this.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, 350, 3));
+                    this.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, 350, 4));
                     this.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 100, 2));
                     this.world.sendEntityStatus(this, (byte)35);
 
@@ -119,7 +120,7 @@ public abstract class LivingEntityMixin  extends Entity{
 
                     TntEntity tntEntity = EntityType.TNT.create(world);
                     tntEntity.setFuse(5);
-                    tntEntity.setPos(this.getX(), this.getY(), this.getZ());
+                    tntEntity.refreshPositionAndAngles(this.getX() , this.getY() , this.getZ(), 0, 0);
                     world.spawnEntity(tntEntity);
 
                     callback.setReturnValue(true);
@@ -146,8 +147,6 @@ public abstract class LivingEntityMixin  extends Entity{
         Entity entity =  this;
 
 
-
-
         /*ItemStack object that is set to the offhand item that entity is carrying*/
         ItemStack offhand_stack = ((LivingEntityMixin) entity).getStackInHand(Hand.OFF_HAND);
         ItemStack offhand_stack_copy;
@@ -163,22 +162,13 @@ public abstract class LivingEntityMixin  extends Entity{
                 callback.setReturnValue(false);
             }
             else {
-                /*sets copy to offhand_stack*/
-                offhand_stack_copy = offhand_stack;
                 /*deletes explosive totem from offhand*/
                 if((offhand_stack.getItem() == MoreTotemsMod.STINGING_TOTEM_OF_UNDYING)) {
                     offhand_stack.decrement(1);
                 }
                 else if((mainhand_stack.getItem() == MoreTotemsMod.STINGING_TOTEM_OF_UNDYING)){
-
                     mainhand_stack.decrement(1);
-
                 }
-
-
-
-                /*if the offhand_stack_copy is not empty, then execute*/
-
 
                 /*totem saves player from an untimely death*/
                 this.setHealth(1.0F);
@@ -190,48 +180,45 @@ public abstract class LivingEntityMixin  extends Entity{
 
                 /*Spawns a SummonedBeeEntity on the player upon use of Stinging Totem*/
 
-                /*TntEntity tntEntity = EntityType.TNT.create(world);
-                tntEntity.setFuse(5);
-                tntEntity.setPosition(this.getX(), this.getY(), this.getZ());
-                world.spawnEntity(tntEntity);*/
+
 
                 SummonedBeeEntity summonedBeeEntity_1 = s_bee.create(world);
                 summonedBeeEntity_1.setSummoner(this);
-                summonedBeeEntity_1.setPos(this.getX(), this.getY(), this.getZ());
+                summonedBeeEntity_1.refreshPositionAndAngles(this.getX(), this.getY() + 1, this.getZ(), 0, 0);
                 world.spawnEntity(summonedBeeEntity_1);
+
 
                 SummonedBeeEntity summonedBeeEntity_2 = s_bee.create(world);
                 summonedBeeEntity_2.setSummoner(this);
-                summonedBeeEntity_2.setPos(this.getX(), this.getY(), this.getZ());
+                summonedBeeEntity_2.refreshPositionAndAngles(this.getX(), this.getY() + 1, this.getZ(), 0, 0);
                 world.spawnEntity(summonedBeeEntity_2);
 
                 SummonedBeeEntity summonedBeeEntity_3 = s_bee.create(world);
                 summonedBeeEntity_3.setSummoner(this);
-                summonedBeeEntity_3.setPos(this.getX(), this.getY(), this.getZ());
+                summonedBeeEntity_3.refreshPositionAndAngles(this.getX() + 1, this.getY() + 1, this.getZ(), 0, 0);
                 world.spawnEntity(summonedBeeEntity_3);
 
                 SummonedBeeEntity summonedBeeEntity_4 = s_bee.create(world);
                 summonedBeeEntity_4.setSummoner(this);
-                summonedBeeEntity_4.setPos(this.getX(), this.getY(), this.getZ());
+                summonedBeeEntity_4.refreshPositionAndAngles(this.getX(), this.getY() + 1, this.getZ() + 1, 0, 0);
                 world.spawnEntity(summonedBeeEntity_4);
 
                 SummonedBeeEntity summonedBeeEntity_5 = s_bee.create(world);
                 summonedBeeEntity_5.setSummoner(this);
-                summonedBeeEntity_5.setPos(this.getX(), this.getY(), this.getZ());
+                summonedBeeEntity_5.refreshPositionAndAngles(this.getX() - 1, this.getY() + 1, this.getZ(), 0, 0);
                 world.spawnEntity(summonedBeeEntity_5);
 
 
+                SummonedBeeEntity summonedBeeEntity_6 = s_bee.create(world);
+                summonedBeeEntity_5.setSummoner(this);
+                summonedBeeEntity_5.refreshPositionAndAngles(this.getX() , this.getY() + 1, this.getZ()-1, 0, 0);
+                world.spawnEntity(summonedBeeEntity_6);
+
                 callback.setReturnValue(true);
 
-
-
-
             }
-
         }
         else {
-
-
 
         }
 
@@ -620,22 +607,28 @@ public abstract class LivingEntityMixin  extends Entity{
                 SummonedZombieEntity zombie_spawn = MoreTotemsMod.SUMMONED_ZOMBIE_ENTITY.create(world);
                 SummonedZombieEntity zombie_spawn_two = MoreTotemsMod.SUMMONED_ZOMBIE_ENTITY.create(world);
                 SummonedZombieEntity zombie_spawn_three = MoreTotemsMod.SUMMONED_ZOMBIE_ENTITY.create(world);
+                SummonedZombieEntity zombie_spawn_four = MoreTotemsMod.SUMMONED_ZOMBIE_ENTITY.create(world);
 
                 zombie_spawn.setSummoner(this);
                 zombie_spawn_two.setSummoner(this);
                 zombie_spawn_three.setSummoner(this);
+                zombie_spawn_four.setSummoner(this);
 
-                zombie_spawn.setPos(this.getX(), this.getY(), this.getZ()+3);
+                zombie_spawn.refreshPositionAndAngles(this.getX(), this.getY(), this.getZ()+3, 0, 0);
 
-                zombie_spawn_two.setPos(this.getX(), this.getY(), this.getZ()-3);
+                zombie_spawn_two.refreshPositionAndAngles(this.getX() , this.getY(), this.getZ()-3, 0, 0);
 
-                zombie_spawn_three.setPos(this.getX()-3, this.getY(), this.getZ());
+                zombie_spawn_three.refreshPositionAndAngles(this.getX() -3, this.getY(), this.getZ(), 0, 0);
+
+                zombie_spawn_four.refreshPositionAndAngles(this.getX()+2, this.getY(), this.getZ()+2, 0, 0);
 
                 world.spawnEntity(zombie_spawn);
 
                 world.spawnEntity(zombie_spawn_two);
 
                 world.spawnEntity(zombie_spawn_three);
+
+                world.spawnEntity(zombie_spawn_four);
 
                 this.world.sendEntityStatus(this, (byte)35);
 
