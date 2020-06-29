@@ -16,7 +16,7 @@ public class RottingTotemOfUndying extends Item {
         super(settings);
     }
 
-    @Override
+    /*@Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity playerEntity, Hand hand)
     {
         playerEntity.playSound(SoundEvents.ENTITY_ZOMBIE_HURT, 1.0F, 1.0F);
@@ -37,7 +37,7 @@ public class RottingTotemOfUndying extends Item {
 
         return new TypedActionResult<>(ActionResult.SUCCESS, playerEntity.getStackInHand(hand));
 
-    }
+    }*/
 
 
 }

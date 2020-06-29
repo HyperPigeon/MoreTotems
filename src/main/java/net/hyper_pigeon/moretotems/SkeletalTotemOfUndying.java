@@ -16,11 +16,11 @@ public class SkeletalTotemOfUndying extends Item {
         super(settings);
     }
 
-    @Override
+    /*@Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity playerEntity, Hand hand)
     {
         playerEntity.playSound(SoundEvents.ENTITY_SKELETON_SHOOT, 1.0F, 1.0F);
         return new TypedActionResult<>(ActionResult.SUCCESS, playerEntity.getStackInHand(hand));
-    }
+    }*/
 
 }

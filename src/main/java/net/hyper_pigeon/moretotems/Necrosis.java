@@ -17,7 +17,7 @@ public class Necrosis extends StatusEffect {
 
             if(entity.hasStatusEffect(StatusEffects.POISON)) {
 
-                if (entity.getHealth() < entity.getMaximumHealth()) {
+                if (entity.getHealth() < entity.getMaxHealth()) {
                     entity.heal(0.3F);
                 }
 

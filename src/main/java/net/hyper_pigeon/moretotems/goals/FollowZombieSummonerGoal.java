@@ -39,7 +39,7 @@ public class FollowZombieSummonerGoal extends Goal {
     @Override
     public boolean canStart() {
 
-        LivingEntity livingEntity = (LivingEntity) this.minion.getSummoner();
+        LivingEntity livingEntity = this.minion.getSummoner();
 
         if (livingEntity == null) {
             return false;
@@ -91,7 +91,7 @@ public class FollowZombieSummonerGoal extends Goal {
 
 
     private void method_23345() {
-        BlockPos blockPos = new BlockPos(this.summoner);
+        BlockPos blockPos = new BlockPos(this.summoner.getBlockPos());
 
         for(int i = 0; i < 10; ++i) {
             int j = this.method_23342(-3, 3);
@@ -119,7 +119,7 @@ public class FollowZombieSummonerGoal extends Goal {
 
 
     private boolean method_23344(BlockPos blockPos) {
-        PathNodeType pathNodeType = LandPathNodeMaker.getPathNodeType(this.world, blockPos.getX(), blockPos.getY(), blockPos.getZ());
+        PathNodeType pathNodeType = LandPathNodeMaker.getLandNodeType(minion.getEntityWorld(), new BlockPos.Mutable());
         if (pathNodeType != PathNodeType.WALKABLE) {
             return false;
         } else {
@@ -127,7 +127,7 @@ public class FollowZombieSummonerGoal extends Goal {
             if (!this.field_21078 && blockState.getBlock() instanceof LeavesBlock) {
                 return false;
             } else {
-                BlockPos blockPos2 = blockPos.subtract(new BlockPos(this.minion));
+                BlockPos blockPos2 = blockPos.subtract(new BlockPos(this.minion.getBlockPos()));
                 return this.world.doesNotCollide(this.minion, this.minion.getBoundingBox().offset(blockPos2));
             }
         }

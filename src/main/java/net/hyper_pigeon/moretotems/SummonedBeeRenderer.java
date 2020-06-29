@@ -13,15 +13,11 @@ public class SummonedBeeRenderer extends MobEntityRenderer<SummonedBeeEntity, Be
     @Override
     public Identifier getTexture(SummonedBeeEntity entity) {
 
-        if(entity.isAngry() && !entity.hasStung()) {
-
+        if(!entity.hasStung()) {
             return new Identifier("textures/entity/bee/bee_angry.png");
-
         }
         else if(entity.hasStung()){
-
             return new Identifier("textures/entity/bee/bee.png");
-
         }
 
         return new Identifier("textures/entity/bee/bee.png");

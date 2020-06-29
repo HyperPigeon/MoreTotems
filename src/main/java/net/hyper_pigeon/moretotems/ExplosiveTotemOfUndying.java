@@ -18,12 +18,12 @@ public class ExplosiveTotemOfUndying extends Item {
     }
 
     /*makes Explosive Totem of Undying play the creeper primed sound when right clicked*/
-    @Override
+    /*@Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity playerEntity, Hand hand)
     {
         playerEntity.playSound(SoundEvents.ENTITY_CREEPER_PRIMED, 1.0F, 1.0F);
         return new TypedActionResult<>(ActionResult.SUCCESS, playerEntity.getStackInHand(hand));
-    }
+    }*/
 
 
 }

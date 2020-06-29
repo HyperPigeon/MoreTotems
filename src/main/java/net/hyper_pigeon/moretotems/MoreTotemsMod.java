@@ -2,14 +2,19 @@ package net.hyper_pigeon.moretotems;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.entity.FabricEntityTypeBuilder;
-import net.minecraft.entity.EntityCategory;
+import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
+import net.minecraft.client.render.entity.model.ZombieEntityModel;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.SpawnGroup;
 import net.minecraft.entity.effect.StatusEffectType;
+import net.minecraft.entity.mob.ZombieEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
+
+import java.util.function.Function;
 
 public class MoreTotemsMod implements ModInitializer {
 
@@ -40,7 +45,7 @@ public class MoreTotemsMod implements ModInitializer {
 			Registry.register(
 					Registry.ENTITY_TYPE,
 					new Identifier("summonedbee", "summoned_bee"),
-					FabricEntityTypeBuilder.create(EntityCategory.CREATURE, SummonedBeeEntity::new).size(EntityDimensions.fixed(1, 2)).build()
+					FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, SummonedBeeEntity::new).size(EntityDimensions.fixed(1, 2)).build()
 
 			);
 
@@ -48,7 +53,17 @@ public class MoreTotemsMod implements ModInitializer {
 	public static final EntityType<SummonedZombieEntity> SUMMONED_ZOMBIE_ENTITY = Registry.register(
 			Registry.ENTITY_TYPE,
 			"summoned_zombie",
-			FabricEntityTypeBuilder.create(EntityCategory.MONSTER, SummonedZombieEntity::new).size(EntityDimensions.fixed(1, 2)).build());
+			FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, SummonedZombieEntity::new).size(EntityDimensions.fixed(1, 2)).build());
+
+//	public static final EntityType<SummonedZombieEntity> SUMMONED_ZOMBIE_ENTITY = Registry.register(
+//			Registry.ENTITY_TYPE,
+//			"summoned_zombie",
+//			net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder.create(SpawnGroup.MONSTER,
+//					((type, world) -> {
+//						new SummonedZombieEntity((EntityType<? extends ZombieEntity>) type, world);
+//					})));
+
+
 
 
 
@@ -72,6 +87,7 @@ public class MoreTotemsMod implements ModInitializer {
 		Registry.register(Registry.ITEM, new Identifier("moretotems", "skeletal_totem_of_undying"), SKELETAL_TOTEM_OF_UNDYING);
 		Registry.register(Registry.ITEM, new Identifier("moretotems", "tentacled_totem_of_undying"), TENTACLED_TOTEM_OF_UNDYING);
 		Registry.register(Registry.ITEM, new Identifier("moretotems", "rotting_totem_of_undying"), ROTTING_TOTEM_OF_UNDYING);
+		FabricDefaultAttributeRegistry.register(MoreTotemsMod.SUMMONED_ZOMBIE_ENTITY, ZombieEntity.createZombieAttributes());
 
 	}
 }
