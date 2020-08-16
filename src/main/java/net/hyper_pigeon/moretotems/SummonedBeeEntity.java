@@ -16,12 +16,6 @@ public class SummonedBeeEntity extends BeeEntity {
     }
 
 
-
-
-
-
-
-
     protected void initAttributes() {
         this.getAttributeInstance(EntityAttributes.GENERIC_FLYING_SPEED).setBaseValue(10.0D);
         this.getAttributeInstance(EntityAttributes.GENERIC_ATTACK_DAMAGE).setBaseValue(5.0D);

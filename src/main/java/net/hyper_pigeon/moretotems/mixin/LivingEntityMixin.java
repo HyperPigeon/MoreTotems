@@ -16,11 +16,15 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.ServerTask;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.tag.BlockTags;
 import net.minecraft.util.Hand;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.registry.Registry;
+import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.World;
 import net.minecraft.world.dimension.DimensionType;
+import org.apache.logging.log4j.core.jmx.Server;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -132,11 +136,6 @@ public abstract class LivingEntityMixin  extends Entity{
             }
 
         }
-        else {
-
-
-
-        }
 
 
     }
@@ -219,27 +218,24 @@ public abstract class LivingEntityMixin  extends Entity{
 
             }
         }
-        else {
-
-        }
 
 
     }
 
     @Inject(at = @At("HEAD"), method = "tryUseTotem", cancellable = true)
     public void useTeleportingTotem(DamageSource damageSource_1, CallbackInfoReturnable<Boolean> callback) {
+
         /*inits PlayerEntity entity, which is a copy of this casted to Living Entity and then PlayerEntity*/
-        Entity entity =  this;
+        LivingEntity entity = (LivingEntity)(Object)this;
+
         /*ItemStack object that is set to the offhand item that entity is carrying*/
-        ItemStack offhand_stack = ((LivingEntityMixin) entity).getStackInHand(Hand.OFF_HAND);
-        ItemStack offhand_stack_copy;
-        ItemStack mainhand_stack = ((LivingEntityMixin) entity).getStackInHand(Hand.MAIN_HAND);
+        ItemStack offhand_stack = entity.getStackInHand(Hand.OFF_HAND);
+        ItemStack mainhand_stack = entity.getStackInHand(Hand.MAIN_HAND);
 
         //Executes if the item in offhand_stack is equal to the explosive totem of Undying
         if ((offhand_stack.getItem() == MoreTotemsMod.TELEPORTING_TOTEM_OF_UNDYING) || (mainhand_stack.getItem() == MoreTotemsMod.TELEPORTING_TOTEM_OF_UNDYING)) {
 
                 /*sets copy to offhand_stack*/
-                offhand_stack_copy = offhand_stack;
 
             if((offhand_stack.getItem() == MoreTotemsMod.TELEPORTING_TOTEM_OF_UNDYING)) {
                 offhand_stack.decrement(1);
@@ -252,54 +248,45 @@ public abstract class LivingEntityMixin  extends Entity{
                 /*totem saves player from an untimely death*/
                 this.setHealth(1.0F);
                 this.clearStatusEffects();
-                this.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, 17500, 10));
+                this.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, 17500, 5));
 
-            if (entity instanceof ServerPlayerEntity) {
+             if(entity instanceof ServerPlayerEntity && !world.isClient()){
 
                 ServerPlayerEntity the_player = (ServerPlayerEntity) entity;
-                //ServerTask dimension_shift = new ServerTask((getServer().getTicks())+1, (Runnable) the_player.changeDimension(DimensionType.OVERWORLD));
-                if(!(the_player.getServerWorld().getDimension() == DimensionType.getOverworldDimensionType())) {
-                    ServerTask dimension_shift = new ServerTask((getServer().getTicks())+1, () -> the_player.changeDimension(the_player.getServerWorld()));
-                    the_server.send(dimension_shift);
-                    /*ServerTask teleport_shift = new ServerTask((getServer().getTicks())+1, () -> the_player.teleport(spawn_pointer.getX(),spawn_pointer.getY(),spawn_pointer.getZ()));
-                   the_server.send(dimension_shift);*/
-                }
-                BlockPos spawn_pointer = the_player.getSpawnPointPosition();
-                //ServerTask teleport_shift = new ServerTask((getServer().getTicks())+1, () -> the_player.teleport(the_player.getServerWorld(),spawn_pointer.getX(),spawn_pointer.getY(),spawn_pointer.getZ(),5.0F,5.0F));
-               //the_server.send(teleport_shift);
-                the_player.teleport(the_player.getServerWorld(),spawn_pointer.getX(),spawn_pointer.getY(),spawn_pointer.getZ(),5.0F,5.0F);
+                 //ServerTask dimension_shift = new ServerTask((getServer().getTicks())+1, (Runnable) the_player.changeDimension(DimensionType.OVERWORLD));
+                 if (the_player.world.getRegistryKey() != World.OVERWORLD) {
 
-                this.world.addParticle(ParticleTypes.PORTAL,
-                        this.getParticleX(0.5D),
-                        this.getRandomBodyY() - 0.25D,
-                        this.getParticleZ(0.5D),
-                        (this.random.nextDouble() - 0.5D) * 2.0D, - this.random.nextDouble(),
-                        (this.random.nextDouble() - 0.5D) * 2.0D);
+                     RegistryKey<World> registryKey = World.OVERWORLD;
+                     ServerWorld serverWorld2 = the_player.getServerWorld().getServer().getWorld(registryKey);
 
+                     ServerTask dimension_shift = new ServerTask((getServer().getTicks()) + 1, () -> the_player.moveToWorld(serverWorld2));
+                     the_server.send(dimension_shift);
+            /*ServerTask teleport_shift = new ServerTask((getServer().getTicks())+1, () -> the_player.teleport(spawn_pointer.getX(),spawn_pointer.getY(),spawn_pointer.getZ()));
+           the_server.send(dimension_shift);*/
+                 }
 
+                 BlockPos spawn_pointer = the_player.getSpawnPointPosition();
 
-            }
+                 System.out.println(spawn_pointer);
 
-                this.world.sendEntityStatus(this, (byte)35);
+                 //the_player.teleport(the_player.getServerWorld(), spawn_pointer.getX(), spawn_pointer.getY(), spawn_pointer.getZ(), 5.0F, 5.0F);
+                 if(the_player != null && spawn_pointer != null) {
+                     ServerTask teleport_shift = new ServerTask((getServer().getTicks()) + 1, () -> the_player.teleport(the_player.getServerWorld(), spawn_pointer.getX(), spawn_pointer.getY(), spawn_pointer.getZ(), 5.0F, 5.0F));
+                     the_server.send(teleport_shift);
+                 }
 
+                 this.world.addParticle(ParticleTypes.PORTAL,
+                         this.getParticleX(0.5D),
+                         this.getRandomBodyY() - 0.25D,
+                         this.getParticleZ(0.5D),
+                         (this.random.nextDouble() - 0.5D) * 2.0D, -this.random.nextDouble(),
+                         (this.random.nextDouble() - 0.5D) * 2.0D);
 
-
-
-                callback.setReturnValue(true);
-
-
-
-
-
+                 this.world.sendEntityStatus(this, (byte) 35);
+                 callback.setReturnValue(true);
+             }
 
         }
-        else {
-
-
-
-        }
-
-
     }
 
 
@@ -353,15 +340,7 @@ public abstract class LivingEntityMixin  extends Entity{
 
                 callback.setReturnValue(true);
 
-
-
-
             }
-
-        }
-        else {
-
-
 
         }
 
@@ -418,10 +397,6 @@ public abstract class LivingEntityMixin  extends Entity{
 
 
             }
-
-        }
-        else {
-
 
         }
 
@@ -482,11 +457,6 @@ public abstract class LivingEntityMixin  extends Entity{
 
 
             }
-
-        }
-        else {
-
-
 
         }
 
@@ -616,10 +586,6 @@ public abstract class LivingEntityMixin  extends Entity{
             }
 
         }
-        else {
-
-
-        }
 
     }
 
@@ -679,9 +645,6 @@ public abstract class LivingEntityMixin  extends Entity{
             callback.setReturnValue(true);
 
         }
-
-
-
 
     }
 
