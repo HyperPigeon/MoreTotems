@@ -1,8 +1,10 @@
 package net.hyper_pigeon.moretotems;
 
 import net.minecraft.entity.*;
+import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.world.World;
@@ -15,12 +17,8 @@ public class SummonedBeeEntity extends BeeEntity {
         super(EntityType.BEE, world_1);
     }
 
-
-    protected void initAttributes() {
-        this.getAttributeInstance(EntityAttributes.GENERIC_FLYING_SPEED).setBaseValue(10.0D);
-        this.getAttributeInstance(EntityAttributes.GENERIC_ATTACK_DAMAGE).setBaseValue(5.0D);
-        this.getAttributeInstance(EntityAttributes.GENERIC_FOLLOW_RANGE).setBaseValue(40.0D);
-
+    public static DefaultAttributeContainer.Builder createTotemBeeAttributes() {
+        return MobEntity.createMobAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 15.0D).add(EntityAttributes.GENERIC_FLYING_SPEED, 2.5D).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 2.5D).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 5.0D).add(EntityAttributes.GENERIC_FOLLOW_RANGE, 48.0D);
     }
 
     public void setSummoner(Entity player) {

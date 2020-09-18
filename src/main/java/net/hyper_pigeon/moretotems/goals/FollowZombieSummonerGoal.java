@@ -128,7 +128,7 @@ public class FollowZombieSummonerGoal extends Goal {
                 return false;
             } else {
                 BlockPos blockPos2 = blockPos.subtract(new BlockPos(this.minion.getBlockPos()));
-                return this.world.doesNotCollide(this.minion, this.minion.getBoundingBox().offset(blockPos2));
+                return this.world.isSpaceEmpty(this.minion, this.minion.getBoundingBox().offset(blockPos2));
             }
         }
     }

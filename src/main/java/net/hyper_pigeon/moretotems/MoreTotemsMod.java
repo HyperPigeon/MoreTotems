@@ -88,6 +88,6 @@ public class MoreTotemsMod implements ModInitializer {
 		Registry.register(Registry.ITEM, new Identifier("moretotems", "tentacled_totem_of_undying"), TENTACLED_TOTEM_OF_UNDYING);
 		Registry.register(Registry.ITEM, new Identifier("moretotems", "rotting_totem_of_undying"), ROTTING_TOTEM_OF_UNDYING);
 		FabricDefaultAttributeRegistry.register(MoreTotemsMod.SUMMONED_ZOMBIE_ENTITY, ZombieEntity.createZombieAttributes());
-
+		FabricDefaultAttributeRegistry.register(MoreTotemsMod.SUMMONED_BEE_ENTITY, SummonedBeeEntity.createTotemBeeAttributes());
 	}
 }
