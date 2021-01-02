@@ -19,6 +19,8 @@
 
   "effect.moretotems.cephalopod": "Cephalopod",
 
-  "entity.moretotems.summoned_bee": "Totem Bee"
+  "entity.moretotems.summoned_bee": "Totem Bee",
+
+  "entity.moretotems.summoned_zombie": "Totem Zombie"
 
 }
