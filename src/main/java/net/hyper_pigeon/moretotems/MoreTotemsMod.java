@@ -44,7 +44,7 @@ public class MoreTotemsMod implements ModInitializer {
 	public static final EntityType<SummonedBeeEntity> SUMMONED_BEE_ENTITY =
 			Registry.register(
 					Registry.ENTITY_TYPE,
-					new Identifier("summonedbee", "summoned_bee"),
+					new Identifier("moretotems", "summoned_bee"),
 					FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, SummonedBeeEntity::new).size(EntityDimensions.fixed(1, 2)).build()
 
 			);
@@ -52,7 +52,7 @@ public class MoreTotemsMod implements ModInitializer {
 
 	public static final EntityType<SummonedZombieEntity> SUMMONED_ZOMBIE_ENTITY = Registry.register(
 			Registry.ENTITY_TYPE,
-			"summoned_zombie",
+			new Identifier("moretotems", "summoned_zombie"),
 			FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, SummonedZombieEntity::new).size(EntityDimensions.fixed(1, 2)).build());
 
 //	public static final EntityType<SummonedZombieEntity> SUMMONED_ZOMBIE_ENTITY = Registry.register(

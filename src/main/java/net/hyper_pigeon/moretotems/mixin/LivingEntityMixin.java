@@ -267,7 +267,6 @@ public abstract class LivingEntityMixin  extends Entity{
 
                  BlockPos spawn_pointer = the_player.getSpawnPointPosition();
 
-                 System.out.println(spawn_pointer);
 
                  //the_player.teleport(the_player.getServerWorld(), spawn_pointer.getX(), spawn_pointer.getY(), spawn_pointer.getZ(), 5.0F, 5.0F);
                  if(the_player != null && spawn_pointer != null) {
@@ -446,6 +445,7 @@ public abstract class LivingEntityMixin  extends Entity{
                 this.addStatusEffect(new StatusEffectInstance(StatusEffects.CONDUIT_POWER, 2000, 0));
                 this.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 950, 1));
                 this.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, 200, 2));
+                this.addStatusEffect(new StatusEffectInstance(StatusEffects.DOLPHINS_GRACE, 950, 0));
 
 
 
