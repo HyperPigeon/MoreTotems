@@ -2,6 +2,10 @@ package net.hyper_pigeon.moretotems;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.rendereregistry.v1.EntityRendererRegistry;
+import net.minecraft.client.render.entity.BeeEntityRenderer;
+import net.minecraft.client.render.entity.ZombieEntityRenderer;
+import net.minecraft.entity.mob.ZombieEntity;
+import net.minecraft.entity.passive.BeeEntity;
 
 
 public class MoreTotemsModClient implements ClientModInitializer{
@@ -11,12 +15,10 @@ public class MoreTotemsModClient implements ClientModInitializer{
     public void onInitializeClient() {
 
         EntityRendererRegistry.INSTANCE.register(MoreTotemsMod.SUMMONED_BEE_ENTITY,
-                (dispatcher, context) ->
-                new SummonedBeeRenderer(dispatcher));
+                BeeEntityRenderer::new);
 
         EntityRendererRegistry.INSTANCE.register(MoreTotemsMod.SUMMONED_ZOMBIE_ENTITY,
-                (dispatcher, context) ->
-                        new SummonedZombieRenderer(dispatcher));
+                ZombieEntityRenderer::new);
 
 
     }
