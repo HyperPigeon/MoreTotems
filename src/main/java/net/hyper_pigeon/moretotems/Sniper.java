@@ -2,21 +2,13 @@ package net.hyper_pigeon.moretotems;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffect;
-import net.minecraft.entity.effect.StatusEffectType;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.entity.projectile.ProjectileEntity;
-import net.minecraft.item.ArrowItem;
-import net.minecraft.item.BowItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-
-import java.util.function.Predicate;
+import net.minecraft.entity.effect.StatusEffectCategory;
 
 public class Sniper extends StatusEffect {
 
 
-    public Sniper(StatusEffectType statusEffectType, int i) {
-        super(statusEffectType, i);
+    public Sniper(StatusEffectCategory statusEffectCategory, int i) {
+        super(statusEffectCategory, i);
     }
 
 

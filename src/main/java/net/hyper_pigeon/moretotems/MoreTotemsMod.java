@@ -3,18 +3,15 @@ package net.hyper_pigeon.moretotems;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.entity.FabricEntityTypeBuilder;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
-import net.minecraft.client.render.entity.model.ZombieEntityModel;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
-import net.minecraft.entity.effect.StatusEffectType;
+import net.minecraft.entity.effect.StatusEffectCategory;
 import net.minecraft.entity.mob.ZombieEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
-
-import java.util.function.Function;
 
 public class MoreTotemsMod implements ModInitializer {
 
@@ -68,11 +65,11 @@ public class MoreTotemsMod implements ModInitializer {
 
 
 
-	public static final Sniper SNIPER = Registry.register(Registry.STATUS_EFFECT, new Identifier("moretotems", "sniper"), new Sniper(StatusEffectType.BENEFICIAL, 13420603));
+	public static final Sniper SNIPER = Registry.register(Registry.STATUS_EFFECT, new Identifier("moretotems", "sniper"), new Sniper(StatusEffectCategory.BENEFICIAL, 13420603));
 
-	public static final Cephalopod CEPHALOPOD = Registry.register(Registry.STATUS_EFFECT, new Identifier("moretotems", "cephalopod"), new Cephalopod(StatusEffectType.BENEFICIAL, 23245245));
+	public static final Cephalopod CEPHALOPOD = Registry.register(Registry.STATUS_EFFECT, new Identifier("moretotems", "cephalopod"), new Cephalopod(StatusEffectCategory.BENEFICIAL, 23245245));
 
-	public static final Necrosis NECROSIS = Registry.register(Registry.STATUS_EFFECT, new Identifier("moretotems", "necrosis"), new Necrosis(StatusEffectType.BENEFICIAL, 23245245));
+	public static final Necrosis NECROSIS = Registry.register(Registry.STATUS_EFFECT, new Identifier("moretotems", "necrosis"), new Necrosis(StatusEffectCategory.BENEFICIAL, 23245245));
 
 	@Override
 	public void onInitialize() {

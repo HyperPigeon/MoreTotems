@@ -3,14 +3,12 @@ package net.hyper_pigeon.moretotems;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffect;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffectType;
-import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.effect.StatusEffectCategory;
 
 public class Cephalopod extends StatusEffect {
 
-    protected Cephalopod(StatusEffectType statusEffectType, int i) {
-        super(statusEffectType, i);
+    protected Cephalopod(StatusEffectCategory statusEffectCategory, int i) {
+        super(statusEffectCategory, i);
     }
 
     public void applyUpdateEffect(LivingEntity entity, int i) {

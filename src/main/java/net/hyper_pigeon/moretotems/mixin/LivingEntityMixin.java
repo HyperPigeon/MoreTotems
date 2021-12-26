@@ -39,7 +39,6 @@ some unique custom features*/
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin  extends Entity{
 
-    @Shadow @Final private DefaultedList<ItemStack> equippedArmor;
 
     @Shadow
     public  native ItemStack getStackInHand(Hand hand_1);
@@ -257,7 +256,7 @@ public abstract class LivingEntityMixin  extends Entity{
                  if (the_player.world.getRegistryKey() != World.OVERWORLD) {
 
                      RegistryKey<World> registryKey = World.OVERWORLD;
-                     ServerWorld serverWorld2 = the_player.getServerWorld().getServer().getWorld(registryKey);
+                     ServerWorld serverWorld2 = the_player.getServer().getWorld(registryKey);
 
                      ServerTask dimension_shift = new ServerTask((getServer().getTicks()) + 1, () -> the_player.moveToWorld(serverWorld2));
                      the_server.send(dimension_shift);
@@ -270,7 +269,7 @@ public abstract class LivingEntityMixin  extends Entity{
 
                  //the_player.teleport(the_player.getServerWorld(), spawn_pointer.getX(), spawn_pointer.getY(), spawn_pointer.getZ(), 5.0F, 5.0F);
                  if(the_player != null && spawn_pointer != null) {
-                     ServerTask teleport_shift = new ServerTask((getServer().getTicks()) + 1, () -> the_player.teleport(the_player.getServerWorld(), spawn_pointer.getX(), spawn_pointer.getY(), spawn_pointer.getZ(), 5.0F, 5.0F));
+                     ServerTask teleport_shift = new ServerTask((getServer().getTicks()) + 1, () -> the_player.teleport(the_player.getWorld(), spawn_pointer.getX(), spawn_pointer.getY(), spawn_pointer.getZ(), 5.0F, 5.0F));
                      the_server.send(teleport_shift);
                  }
 

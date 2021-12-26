@@ -72,7 +72,7 @@ public class FollowZombieSummonerGoal extends Goal {
 
 
     public void tick(){
-        this.minion.getLookControl().lookAt(this.summoner, 10.0F, (float)this.minion.getLookPitchSpeed());
+        this.minion.getLookControl().lookAt(this.summoner, 10.0F, (float)this.minion.getPitch());
         if (--this.field_6443 <= 0) {
             this.field_6443 = 10;
             if (!this.minion.hasVehicle()) {
