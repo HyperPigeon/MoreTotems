@@ -5,6 +5,7 @@ import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.MobEntity;
+import net.minecraft.entity.mob.ZombieEntity;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.world.World;
@@ -13,8 +14,8 @@ public class SummonedBeeEntity extends BeeEntity {
 
     private Entity summoner;
 
-    public SummonedBeeEntity(World world_1) {
-        super(EntityType.BEE, world_1);
+    public SummonedBeeEntity(EntityType<? extends BeeEntity> type, World world) {
+        super(type, world);
     }
 
     public static DefaultAttributeContainer.Builder createTotemBeeAttributes() {
@@ -52,14 +53,11 @@ public class SummonedBeeEntity extends BeeEntity {
     }
 
     private boolean setBeeAttacker(LivingEntity attacker) {
-
         if(attacker.equals(summoner)) {
             return false;
         }
         setAttacker(attacker);
         return true;
-
-
 
     }
 

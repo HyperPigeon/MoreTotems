@@ -1,8 +1,8 @@
 package net.hyper_pigeon.moretotems;
 
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.entity.FabricEntityTypeBuilder;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
+import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
@@ -42,7 +42,7 @@ public class MoreTotemsMod implements ModInitializer {
 			Registry.register(
 					Registry.ENTITY_TYPE,
 					new Identifier("moretotems", "summoned_bee"),
-					FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, SummonedBeeEntity::new).size(EntityDimensions.fixed(1, 2)).build()
+					FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, SummonedBeeEntity::new).dimensions(EntityDimensions.fixed(1, 2)).build()
 
 			);
 
@@ -50,7 +50,7 @@ public class MoreTotemsMod implements ModInitializer {
 	public static final EntityType<SummonedZombieEntity> SUMMONED_ZOMBIE_ENTITY = Registry.register(
 			Registry.ENTITY_TYPE,
 			new Identifier("moretotems", "summoned_zombie"),
-			FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, SummonedZombieEntity::new).size(EntityDimensions.fixed(1, 2)).build());
+			FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, SummonedZombieEntity::new).dimensions(EntityDimensions.fixed(1, 2)).build());
 
 //	public static final EntityType<SummonedZombieEntity> SUMMONED_ZOMBIE_ENTITY = Registry.register(
 //			Registry.ENTITY_TYPE,
