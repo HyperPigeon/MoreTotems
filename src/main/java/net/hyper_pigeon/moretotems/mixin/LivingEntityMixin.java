@@ -35,9 +35,6 @@ public abstract class LivingEntityMixin  extends Entity{
     public  native ItemStack getStackInHand(Hand hand_1);
 
     @Shadow
-    public native LivingEntity getAttacker();
-
-    @Shadow
     public native boolean hasStatusEffect(StatusEffect effect);
 
     @Shadow public native void setHealth(float health);
