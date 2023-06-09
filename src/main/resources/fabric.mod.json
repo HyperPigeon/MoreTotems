@@ -4,7 +4,7 @@
   "version": "${version}",
 
   "name": "More Totems",
-  "description": "More Totems adds, well, more totems of undying to Minecraft! Each totem is inspired by a particular mob in the game and gives the player unique effects and benefits upon activation. All credit for the good textures go to /u/ExterrMatt who was kind enough to allow me to use his beautiful mob totem textures!",
+  "description": "More Totems adds, well, more totems of undying to Minecraft! Each totem is inspired by a particular mob in the game and gives the player unique effects and benefits upon activation.",
   "authors": [
     "Hyper_Pigeon"
   ],
@@ -14,7 +14,7 @@
   },
 
   "license": "CC0-1.0",
-  "icon": "assets/modid/icon.png",
+  "icon": "assets/moretotems/icon.png",
 
   "environment": "*",
   "entrypoints": {
@@ -22,7 +22,7 @@
       "net.hyper_pigeon.moretotems.MoreTotemsMod"
     ],
     "client": [
-      "net.hyper_pigeon.moretotems.MoreTotemsModClient"
+      "net.hyper_pigeon.moretotems.client.MoreTotemsModClient"
     ]
   },
   "mixins": [

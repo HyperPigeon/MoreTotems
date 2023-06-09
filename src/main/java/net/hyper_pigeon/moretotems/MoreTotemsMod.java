@@ -3,6 +3,12 @@ package net.hyper_pigeon.moretotems;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
+import net.hyper_pigeon.moretotems.effects.Cephalopod;
+import net.hyper_pigeon.moretotems.effects.Necrosis;
+import net.hyper_pigeon.moretotems.effects.Sniper;
+import net.hyper_pigeon.moretotems.entity.SummonedBeeEntity;
+import net.hyper_pigeon.moretotems.entity.SummonedZombieEntity;
+import net.hyper_pigeon.moretotems.item.*;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
@@ -51,17 +57,6 @@ public class MoreTotemsMod implements ModInitializer {
 			Registry.ENTITY_TYPE,
 			new Identifier("moretotems", "summoned_zombie"),
 			FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, SummonedZombieEntity::new).dimensions(EntityDimensions.fixed(1, 2)).build());
-
-//	public static final EntityType<SummonedZombieEntity> SUMMONED_ZOMBIE_ENTITY = Registry.register(
-//			Registry.ENTITY_TYPE,
-//			"summoned_zombie",
-//			net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder.create(SpawnGroup.MONSTER,
-//					((type, world) -> {
-//						new SummonedZombieEntity((EntityType<? extends ZombieEntity>) type, world);
-//					})));
-
-
-
 
 
 

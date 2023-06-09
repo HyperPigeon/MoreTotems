@@ -1,6 +1,6 @@
 package net.hyper_pigeon.moretotems.goals;
 
-import net.hyper_pigeon.moretotems.SummonedZombieEntity;
+import net.hyper_pigeon.moretotems.entity.SummonedZombieEntity;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.LeavesBlock;
 import net.minecraft.entity.LivingEntity;
@@ -21,7 +21,6 @@ public class FollowZombieSummonerGoal extends Goal {
     private int field_6443;
     private final float maxDistance;
     private final float minDistance;
-    private float field_6447;
     private final boolean field_21078;
 
     public FollowZombieSummonerGoal(SummonedZombieEntity minion, LivingEntity summoner, WorldView world, double speed, EntityNavigation navigation,  float maxDistance, float minDistance,  boolean field_21078) {
