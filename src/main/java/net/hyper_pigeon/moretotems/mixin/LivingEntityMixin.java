@@ -67,7 +67,6 @@ public abstract class LivingEntityMixin  extends Entity{
 
         /*ItemStack object that is set to the offhand item that entity is carrying*/
         ItemStack offhand_stack = ((LivingEntityMixin) entity).getStackInHand(Hand.OFF_HAND);
-        ItemStack offhand_stack_copy;
 
         ItemStack mainhand_stack = ((LivingEntityMixin) entity).getStackInHand(Hand.MAIN_HAND);
 
@@ -81,7 +80,6 @@ public abstract class LivingEntityMixin  extends Entity{
             }
             else {
                 /*sets copy to offhand_stack*/
-                offhand_stack_copy = offhand_stack;
                 /*deletes explosive totem from offhand*/
 
                 if((offhand_stack.getItem() == MoreTotemsMod.EXPLOSIVE_TOTEM_OF_UNDYING)) {
@@ -93,8 +91,6 @@ public abstract class LivingEntityMixin  extends Entity{
 
                 }
 
-
-                /*if the offhand_stack_copy is not empty, then execute*/
 
 
                 /*totem saves player from an untimely death*/
@@ -236,21 +232,22 @@ public abstract class LivingEntityMixin  extends Entity{
 
             if(entity instanceof ServerPlayerEntity && !world.isClient()){
 
-                ServerPlayerEntity the_player = (ServerPlayerEntity) entity;
-                if (the_player.world.getRegistryKey() != World.OVERWORLD) {
+                ServerPlayerEntity player = (ServerPlayerEntity) entity;
+                BlockPos spawn_pointer = player.getSpawnPointPosition();
 
-                    RegistryKey<World> registryKey = World.OVERWORLD;
-                    ServerWorld serverWorld2 = the_player.getServer().getWorld(registryKey);
 
-                    ServerTask dimension_shift = new ServerTask((getServer().getTicks()) + 1, () -> the_player.moveToWorld(serverWorld2));
+                if (player.world.getRegistryKey() != player.getSpawnPointDimension()) {
+
+                    RegistryKey<World> registryKey =  player.getSpawnPointDimension();
+                    ServerWorld serverWorld2 = player.getServer().getWorld(registryKey);
+
+                    ServerTask dimension_shift = new ServerTask((getServer().getTicks()) + 1, () -> player.moveToWorld(serverWorld2));
                     the_server.send(dimension_shift);
 
                 }
 
-                BlockPos spawn_pointer = the_player.getSpawnPointPosition();
-
                 if(spawn_pointer != null) {
-                    ServerTask teleport_shift = new ServerTask((getServer().getTicks()) + 1, () -> the_player.teleport(the_player.getWorld(), spawn_pointer.getX(), spawn_pointer.getY(), spawn_pointer.getZ(), 5.0F, 5.0F));
+                    ServerTask teleport_shift = new ServerTask((getServer().getTicks()) + 1, () -> player.teleport(player.getWorld(), spawn_pointer.getX(), spawn_pointer.getY(), spawn_pointer.getZ(), 5.0F, 5.0F));
                     the_server.send(teleport_shift);
                 }
 
@@ -277,7 +274,6 @@ public abstract class LivingEntityMixin  extends Entity{
 
         /*ItemStack object that is set to the offhand item that entity is carrying*/
         ItemStack offhand_stack = ((LivingEntityMixin) entity).getStackInHand(Hand.OFF_HAND);
-        ItemStack offhand_stack_copy;
 
         ItemStack mainhand_stack = ((LivingEntityMixin) entity).getStackInHand(Hand.MAIN_HAND);
 
@@ -291,7 +287,6 @@ public abstract class LivingEntityMixin  extends Entity{
             }
             else {
                 /*sets copy to offhand_stack*/
-                offhand_stack_copy = offhand_stack;
 
                 if((offhand_stack.getItem() == MoreTotemsMod.GHASTLY_TOTEM_OF_UNDYING)) {
                     offhand_stack.decrement(1);
