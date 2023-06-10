@@ -5,18 +5,19 @@ import net.hyper_pigeon.moretotems.entity.SummonedBeeEntity;
 import net.hyper_pigeon.moretotems.entity.SummonedZombieEntity;
 import net.minecraft.entity.*;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.damage.DamageTypes;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.ServerTask;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -71,7 +72,7 @@ public abstract class LivingEntityMixin  extends Entity{
         if ((offhand_stack.getItem() == MoreTotemsMod.EXPLOSIVE_TOTEM_OF_UNDYING) || (mainhand_stack.getItem() == MoreTotemsMod.EXPLOSIVE_TOTEM_OF_UNDYING) ) {
 
             /*If the damagesource is something that could kill a player in creative mode, the totem does not work*/
-            if (damageSource_1.isOutOfWorld()) {
+            if (damageSource_1.getType().equals(DamageTypes.OUT_OF_WORLD)) {
 
                 callback.setReturnValue(false);
             }
@@ -134,7 +135,7 @@ public abstract class LivingEntityMixin  extends Entity{
         if ((offhand_stack.getItem() == MoreTotemsMod.STINGING_TOTEM_OF_UNDYING) || (mainhand_stack.getItem() == MoreTotemsMod.STINGING_TOTEM_OF_UNDYING)) {
 
             /*If the damagesource is something that could kill a player in creative mode, the totem does not work*/
-            if (damageSource_1.isOutOfWorld()) {
+            if (damageSource_1.getType().equals(DamageTypes.OUT_OF_WORLD)) {
 
                 callback.setReturnValue(false);
             }
@@ -278,7 +279,7 @@ public abstract class LivingEntityMixin  extends Entity{
         if ((offhand_stack.getItem() == MoreTotemsMod.GHASTLY_TOTEM_OF_UNDYING) || (mainhand_stack.getItem() == MoreTotemsMod.GHASTLY_TOTEM_OF_UNDYING)) {
 
             /*If the damagesource is something that could kill a player in creative mode, the totem does not work*/
-            if (damageSource_1.isOutOfWorld()) {
+            if (damageSource_1.getType().equals(DamageTypes.OUT_OF_WORLD)) {
 
                 callback.setReturnValue(false);
             }
@@ -332,7 +333,7 @@ public abstract class LivingEntityMixin  extends Entity{
         if ((offhand_stack.getItem() == MoreTotemsMod.SKELETAL_TOTEM_OF_UNDYING) || (mainhand_stack.getItem() == MoreTotemsMod.SKELETAL_TOTEM_OF_UNDYING)) {
 
             /*If the damagesource is something that could kill a player in creative mode, the totem does not work*/
-            if (damageSource_1.isOutOfWorld()) {
+            if (damageSource_1.getType().equals(DamageTypes.OUT_OF_WORLD)) {
 
                 callback.setReturnValue(false);
             }
@@ -386,7 +387,7 @@ public abstract class LivingEntityMixin  extends Entity{
         if ((offhand_stack.getItem() == MoreTotemsMod.TENTACLED_TOTEM_OF_UNDYING) || (mainhand_stack.getItem() == MoreTotemsMod.TENTACLED_TOTEM_OF_UNDYING)) {
 
             /*If the damagesource is something that could kill a player in creative mode, the totem does not work*/
-            if (damageSource_1.isOutOfWorld()) {
+            if (damageSource_1.getType().equals(DamageTypes.OUT_OF_WORLD)) {
 
                 callback.setReturnValue(false);
             }
@@ -490,7 +491,7 @@ public abstract class LivingEntityMixin  extends Entity{
         if ((offhand_stack.getItem() == MoreTotemsMod.ROTTING_TOTEM_OF_UNDYING) || (mainhand_stack.getItem() == MoreTotemsMod.ROTTING_TOTEM_OF_UNDYING)) {
 
             /*If the damagesource is something that could kill a player in creative mode, the totem does not work*/
-            if (damageSource_1.isOutOfWorld()) {
+            if (damageSource_1.getType().equals(DamageTypes.OUT_OF_WORLD)) {
 
                 callback.setReturnValue(false);
             }
