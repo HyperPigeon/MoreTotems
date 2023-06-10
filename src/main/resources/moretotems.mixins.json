@@ -7,8 +7,7 @@
     "PersistentProjectileEntityMixin"
   ],
   "client": [
-    "ClientPlayNetworkHandlerMixin",
-    "MoreTotemsMixin"
+    "ClientPlayNetworkHandlerMixin"
   ],
   "injectors": {
     "defaultRequire": 1
