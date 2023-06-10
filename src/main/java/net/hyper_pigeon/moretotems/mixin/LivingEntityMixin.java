@@ -97,14 +97,14 @@ public abstract class LivingEntityMixin  extends Entity{
                 this.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 125, 2));
                 this.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, 350, 4));
                 this.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 100, 2));
-                this.world.sendEntityStatus(this, (byte)35);
+                this.getWorld().sendEntityStatus(this, (byte)35);
 
                 /*Spawns a tntEntity on the player upon use of Explosive Totem*/
 
-                TntEntity tntEntity = EntityType.TNT.create(world);
+                TntEntity tntEntity = EntityType.TNT.create(getWorld());
                 tntEntity.setFuse(5);
                 tntEntity.refreshPositionAndAngles(this.getX() , this.getY() , this.getZ(), 0, 0);
-                world.spawnEntity(tntEntity);
+                getWorld().spawnEntity(tntEntity);
 
                 callback.setReturnValue(true);
 
@@ -154,43 +154,43 @@ public abstract class LivingEntityMixin  extends Entity{
                 this.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 650, 1));
                 this.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, 1500, 1));
                 //this.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 500, 2));
-                this.world.sendEntityStatus(this, (byte)35);
+                this.getWorld().sendEntityStatus(this, (byte)35);
 
                 /*Spawns a SummonedBeeEntity on the player upon use of Stinging Totem*/
 
 
 
-                SummonedBeeEntity summonedBeeEntity_1 = s_bee.create(world);
+                SummonedBeeEntity summonedBeeEntity_1 = s_bee.create(getWorld());
                 summonedBeeEntity_1.setSummoner(this);
                 summonedBeeEntity_1.refreshPositionAndAngles(this.getX(), this.getY() + 1, this.getZ(), 0, 0);
-                world.spawnEntity(summonedBeeEntity_1);
+                getWorld().spawnEntity(summonedBeeEntity_1);
 
 
-                SummonedBeeEntity summonedBeeEntity_2 = s_bee.create(world);
+                SummonedBeeEntity summonedBeeEntity_2 = s_bee.create(getWorld());
                 summonedBeeEntity_2.setSummoner(this);
                 summonedBeeEntity_2.refreshPositionAndAngles(this.getX(), this.getY() + 1, this.getZ(), 0, 0);
-                world.spawnEntity(summonedBeeEntity_2);
+                getWorld().spawnEntity(summonedBeeEntity_2);
 
-                SummonedBeeEntity summonedBeeEntity_3 = s_bee.create(world);
+                SummonedBeeEntity summonedBeeEntity_3 = s_bee.create(getWorld());
                 summonedBeeEntity_3.setSummoner(this);
                 summonedBeeEntity_3.refreshPositionAndAngles(this.getX() + 1, this.getY() + 1, this.getZ(), 0, 0);
-                world.spawnEntity(summonedBeeEntity_3);
+                getWorld().spawnEntity(summonedBeeEntity_3);
 
-                SummonedBeeEntity summonedBeeEntity_4 = s_bee.create(world);
+                SummonedBeeEntity summonedBeeEntity_4 = s_bee.create(getWorld());
                 summonedBeeEntity_4.setSummoner(this);
                 summonedBeeEntity_4.refreshPositionAndAngles(this.getX(), this.getY() + 1, this.getZ() + 1, 0, 0);
-                world.spawnEntity(summonedBeeEntity_4);
+                getWorld().spawnEntity(summonedBeeEntity_4);
 
-                SummonedBeeEntity summonedBeeEntity_5 = s_bee.create(world);
+                SummonedBeeEntity summonedBeeEntity_5 = s_bee.create(getWorld());
                 summonedBeeEntity_5.setSummoner(this);
                 summonedBeeEntity_5.refreshPositionAndAngles(this.getX() - 1, this.getY() + 1, this.getZ(), 0, 0);
-                world.spawnEntity(summonedBeeEntity_5);
+                getWorld().spawnEntity(summonedBeeEntity_5);
 
 
-                SummonedBeeEntity summonedBeeEntity_6 = s_bee.create(world);
+                SummonedBeeEntity summonedBeeEntity_6 = s_bee.create(getWorld());
                 summonedBeeEntity_5.setSummoner(this);
                 summonedBeeEntity_5.refreshPositionAndAngles(this.getX() , this.getY() + 1, this.getZ()-1, 0, 0);
-                world.spawnEntity(summonedBeeEntity_6);
+                getWorld().spawnEntity(summonedBeeEntity_6);
 
                 callback.setReturnValue(true);
 
@@ -228,13 +228,13 @@ public abstract class LivingEntityMixin  extends Entity{
             this.clearStatusEffects();
             this.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, 17500, 5));
 
-            if(entity instanceof ServerPlayerEntity && !world.isClient()){
+            if(entity instanceof ServerPlayerEntity && !getWorld().isClient()){
 
                 ServerPlayerEntity player = (ServerPlayerEntity) entity;
                 BlockPos spawn_pointer = player.getSpawnPointPosition();
 
 
-                if (player.world.getRegistryKey() != player.getSpawnPointDimension()) {
+                if (player.getWorld().getRegistryKey() != player.getSpawnPointDimension()) {
 
                     RegistryKey<World> registryKey =  player.getSpawnPointDimension();
                     ServerWorld serverWorld2 = player.getServer().getWorld(registryKey);
@@ -245,18 +245,18 @@ public abstract class LivingEntityMixin  extends Entity{
                 }
 
                 if(spawn_pointer != null) {
-                    ServerTask teleport_shift = new ServerTask((getServer().getTicks()) + 1, () -> player.teleport(player.getWorld(), spawn_pointer.getX(), spawn_pointer.getY(), spawn_pointer.getZ(), 5.0F, 5.0F));
+                    ServerTask teleport_shift = new ServerTask((getServer().getTicks()) + 1, () -> player.teleport(player.getServerWorld(), spawn_pointer.getX(), spawn_pointer.getY(), spawn_pointer.getZ(), 5.0F, 5.0F));
                     the_server.send(teleport_shift);
                 }
 
-                this.world.addParticle(ParticleTypes.PORTAL,
+                this.getWorld().addParticle(ParticleTypes.PORTAL,
                         this.getParticleX(0.5D),
                         this.getRandomBodyY() - 0.25D,
                         this.getParticleZ(0.5D),
                         (this.random.nextDouble() - 0.5D) * 2.0D, -this.random.nextDouble(),
                         (this.random.nextDouble() - 0.5D) * 2.0D);
 
-                this.world.sendEntityStatus(this, (byte) 35);
+                this.getWorld().sendEntityStatus(this, (byte) 35);
                 callback.setReturnValue(true);
             }
 
@@ -308,7 +308,7 @@ public abstract class LivingEntityMixin  extends Entity{
                 this.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOW_FALLING, 1750, 1));
 
 
-                this.world.sendEntityStatus(this, (byte)35);
+                this.getWorld().sendEntityStatus(this, (byte)35);
 
                 callback.setReturnValue(true);
 
@@ -361,7 +361,7 @@ public abstract class LivingEntityMixin  extends Entity{
                 this.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, 350, 1));
                 this.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 250, 0));
 
-                this.world.sendEntityStatus(this, (byte)35);
+                this.getWorld().sendEntityStatus(this, (byte)35);
 
                 callback.setReturnValue(true);
 
@@ -418,7 +418,7 @@ public abstract class LivingEntityMixin  extends Entity{
 
 
 
-                this.world.sendEntityStatus(this, (byte)35);
+                this.getWorld().sendEntityStatus(this, (byte)35);
 
                 callback.setReturnValue(true);
 
@@ -515,10 +515,10 @@ public abstract class LivingEntityMixin  extends Entity{
                 this.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, 300,2));
                 this.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, 400, 0));
 
-                SummonedZombieEntity zombie_spawn = MoreTotemsMod.SUMMONED_ZOMBIE_ENTITY.create(world);
-                SummonedZombieEntity zombie_spawn_two = MoreTotemsMod.SUMMONED_ZOMBIE_ENTITY.create(world);
-                SummonedZombieEntity zombie_spawn_three = MoreTotemsMod.SUMMONED_ZOMBIE_ENTITY.create(world);
-                SummonedZombieEntity zombie_spawn_four = MoreTotemsMod.SUMMONED_ZOMBIE_ENTITY.create(world);
+                SummonedZombieEntity zombie_spawn = MoreTotemsMod.SUMMONED_ZOMBIE_ENTITY.create(getWorld());
+                SummonedZombieEntity zombie_spawn_two = MoreTotemsMod.SUMMONED_ZOMBIE_ENTITY.create(getWorld());
+                SummonedZombieEntity zombie_spawn_three = MoreTotemsMod.SUMMONED_ZOMBIE_ENTITY.create(getWorld());
+                SummonedZombieEntity zombie_spawn_four = MoreTotemsMod.SUMMONED_ZOMBIE_ENTITY.create(getWorld());
 
                 assert zombie_spawn != null;
                 zombie_spawn.setSummoner(this);
@@ -537,15 +537,15 @@ public abstract class LivingEntityMixin  extends Entity{
 
                 zombie_spawn_four.refreshPositionAndAngles(this.getX()+2, this.getY(), this.getZ()+2, 0, 0);
 
-                world.spawnEntity(zombie_spawn);
+                getWorld().spawnEntity(zombie_spawn);
 
-                world.spawnEntity(zombie_spawn_two);
+                getWorld().spawnEntity(zombie_spawn_two);
 
-                world.spawnEntity(zombie_spawn_three);
+                getWorld().spawnEntity(zombie_spawn_three);
 
-                world.spawnEntity(zombie_spawn_four);
+                getWorld().spawnEntity(zombie_spawn_four);
 
-                this.world.sendEntityStatus(this, (byte)35);
+                this.getWorld().sendEntityStatus(this, (byte)35);
 
                 callback.setReturnValue(true);
 

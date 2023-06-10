@@ -46,7 +46,7 @@ public class SummonedZombieEntity extends ZombieEntity {
 
     @Override
     protected void initGoals() {
-        this.goalSelector.add(6, new FollowZombieSummonerGoal(this, this.getSummoner(), this.world, 1.0, this.getNavigation(), 90.0F, 3.0F, true));
+        this.goalSelector.add(6, new FollowZombieSummonerGoal(this, this.getSummoner(), this.getWorld(), 1.0, this.getNavigation(), 90.0F, 3.0F, true));
         this.initCustomGoals();
     }
 
@@ -124,7 +124,7 @@ public class SummonedZombieEntity extends ZombieEntity {
     public LivingEntity getSummoner() {
         try {
             Optional<UUID> uUID = this.getSummonerUuid();
-            return uUID.map(value -> this.world.getPlayerByUuid(value)).orElse(null);
+            return uUID.map(value -> this.getWorld().getPlayerByUuid(value)).orElse(null);
         } catch (IllegalArgumentException var2) {
             return null;
         }
