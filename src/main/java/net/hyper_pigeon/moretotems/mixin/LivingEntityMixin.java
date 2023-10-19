@@ -9,21 +9,28 @@ import net.minecraft.entity.damage.DamageTypes;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleTypes;
-import net.minecraft.registry.RegistryKey;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.ServerTask;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ChunkTicketType;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
+import net.minecraft.util.math.ChunkSectionPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+import java.util.Objects;
+import java.util.Optional;
 
 /*The goal of this Mixin class is to give the totems the same ability to save the player from death, along with
 some unique custom features*/
@@ -225,29 +232,30 @@ public abstract class LivingEntityMixin  extends Entity{
             }
             /*totem saves player from an untimely death*/
             this.setHealth(1.0F);
+            this.extinguish();
+            this.fallDistance = 0f;
             this.clearStatusEffects();
             this.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, 17500, 5));
 
             if(entity instanceof ServerPlayerEntity && !getWorld().isClient()){
 
                 ServerPlayerEntity player = (ServerPlayerEntity) entity;
-                BlockPos spawn_pointer = player.getSpawnPointPosition();
+                ServerWorld dest = Objects.requireNonNullElse(player.getServer().getWorld(player.getSpawnPointDimension()), player.getServer().getOverworld());
+                Vec3d spawn_pointer = Optional.ofNullable(player.getSpawnPointPosition())
+                        // Get player respawn position
+                        .flatMap(pos -> PlayerEntity.findRespawnPosition(dest, pos, player.getSpawnAngle(), player.isSpawnForced(), true))
+                        .orElseGet(() -> {
+                            // Get world spawn if not possible
+                            BlockPos worldSpawn = dest.getSpawnPos();
+                            return new Vec3d(worldSpawn.getX() + 0.5, worldSpawn.getY() + 0.1, worldSpawn.getZ() + 0.5);
+                        });
 
-
-                if (player.getWorld().getRegistryKey() != player.getSpawnPointDimension()) {
-
-                    RegistryKey<World> registryKey =  player.getSpawnPointDimension();
-                    ServerWorld serverWorld2 = player.getServer().getWorld(registryKey);
-
-                    ServerTask dimension_shift = new ServerTask((getServer().getTicks()) + 1, () -> player.moveToWorld(serverWorld2));
-                    the_server.send(dimension_shift);
-
-                }
-
-                if(spawn_pointer != null) {
-                    ServerTask teleport_shift = new ServerTask((getServer().getTicks()) + 1, () -> player.teleport(player.getServerWorld(), spawn_pointer.getX(), spawn_pointer.getY(), spawn_pointer.getZ(), 5.0F, 5.0F));
-                    the_server.send(teleport_shift);
-                }
+                ServerTask teleport_shift = new ServerTask((getServer().getTicks()) + 1, () -> {
+                    // Load chunk for spawning
+                    dest.getChunkManager().addTicket(ChunkTicketType.POST_TELEPORT, new ChunkPos(ChunkSectionPos.getSectionCoord(spawn_pointer.x), ChunkSectionPos.getSectionCoord(spawn_pointer.z)), 1, player.getId());
+                    player.teleport(dest, spawn_pointer.getX(), spawn_pointer.getY(), spawn_pointer.getZ(), 5.0F, 5.0F);
+                });
+                the_server.send(teleport_shift);
 
                 this.getWorld().addParticle(ParticleTypes.PORTAL,
                         this.getParticleX(0.5D),
