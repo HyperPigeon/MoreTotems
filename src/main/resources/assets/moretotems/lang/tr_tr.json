@@ -1,0 +1,51 @@
+{
+
+  "item.moretotems.explosive_totem_of_undying": "Patlayıcı Ölümsüzlük Totemi",
+
+
+
+  "item.moretotems.stinging_totem_of_undying": "Batıcı Ölümsüzlük Totemi",
+
+
+
+  "item.moretotems.teleporting_totem_of_undying": "Işınlanan Ölümsüzlük Totemi",
+
+
+
+  "item.moretotems.ghastly_totem_of_undying": "Ghastcıl Ölümsüzlük Totemi",
+
+
+
+  "item.moretotems.skeletal_totem_of_undying": "İskeletsel Ölümsüzlük Totemi",
+
+
+
+  "item.moretotems.tentacled_totem_of_undying": "Dokunaçlı Ölümsüzlük Totemi",
+
+
+
+  "item.moretotems.rotting_totem_of_undying": "Çürük Ölümsüzlük Totemi",
+
+
+
+  "effect.moretotems.sniper": "Nişancı",
+
+
+
+  "effect.moretotems.necrosis": "Kangren",
+
+
+
+  "effect.moretotems.cephalopod": "Kafadanbacaklılar",
+
+
+
+  "entity.moretotems.summoned_bee": "Totem Arısı",
+
+
+
+  "entity.moretotems.summoned_zombie": "Totem Zombisi"
+
+
+
+}
